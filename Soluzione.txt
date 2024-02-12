@@ -1,18 +1,102 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+Ex1:
 
-namespace ConsoleApp1
-{
-    internal class Program
+WebConfig:
+<appSettings>
+    <add key="nome" value="Marco"/>
+    <add key="cognome" value="Puccio"/>
+  </appSettings>
+
+
+Default.aspx
+<form id="form1" runat="server">
+        <div>
+            <asp:Button ID="Button1" runat="server" Text="Leggi Dati da Web.config" OnClick="Button1_Click" />
+        </div>
+    </form>
+
+Default.aspx.cs
+protected void Button1_Click(object sender, EventArgs e)
+        {
+            Response.Write($"Nome: {ConfigurationManager.AppSettings["nome"]}, " +
+                           $"Cognome: {ConfigurationManager.AppSettings["cognome"]}");
+        }
+
+
+
+==========================================
+Ex2:
+ public class Menu
+    {
+        private string _nomePiatto;
+        private decimal _costoPiatto;
+        private static List<Menu> _piattoScelto = new List<Menu>();
+
+        public string NomePiatto
+        {
+            get
+            {
+                return _nomePiatto;
+            }
+            set
+            {
+                _nomePiatto = value;
+            }
+        }
+        public decimal CostoPiatto
+        {
+            get
+            {
+                return _costoPiatto;
+            }
+            set
+            {
+                _costoPiatto = value;
+            }
+        }
+        public static List<Menu> PiattoScelto
+        {
+            get
+            {
+                return _piattoScelto;
+            } set
+            {
+                _piattoScelto = value;
+            }
+        }
+
+        public Menu(string nomepiatto, decimal costo)
+        {
+            this._nomePiatto = nomepiatto;
+            this._costoPiatto = costo;
+        }
+
+        public static void ScriviContoFinale()
+        {
+            decimal contoFinale = 0;
+            decimal servizio = 3;
+
+            Console.WriteLine("======Il tuo conto:======");
+            Console.WriteLine("PIATTI SCELTI");
+            foreach (Menu m in Menu.PiattoScelto)
+            {
+                Console.WriteLine($"{m.NomePiatto} - € {m.CostoPiatto}");
+                contoFinale += m.CostoPiatto;
+            }
+            Console.WriteLine($"Servizio: {servizio}");
+            Console.WriteLine($"Totale Conto: {(contoFinale + servizio)}");
+            Console.WriteLine("Grazie per averci scelto!");
+            Console.ReadLine();
+        }
+    }
+
+ class Program
     {
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             ScriviMenu();
         }
+
         public static void ScriviMenu()
         {
             Console.WriteLine("");
@@ -88,5 +172,7 @@ namespace ConsoleApp1
                     break;
             }
         }
+
     }
-}
+
+
